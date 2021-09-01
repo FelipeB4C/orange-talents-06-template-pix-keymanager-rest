@@ -1,6 +1,6 @@
-applicationType: default
-defaultPackage: com.zup
+applicationType: grpc
+defaultPackage: com.zup.edu
 testFramework: junit
 sourceLanguage: kotlin
 buildTool: gradle_kotlin
-features: [annotation-api, app-name, gradle, http-client, junit, kotlin, kotlin-application, logback, netty-server, readme, shade, yaml]
+features: [annotation-api, app-name, gradle, grpc, junit, kotlin, kotlin-application, logback, readme, shade, yaml]

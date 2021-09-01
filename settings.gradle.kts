@@ -1,2 +1,2 @@
 
-rootProject.name="keymanagerrest"
+rootProject.name="managerrest"

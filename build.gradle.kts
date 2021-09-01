@@ -1,13 +1,15 @@
+import com.google.protobuf.gradle.*
 plugins {
     id("org.jetbrains.kotlin.jvm") version "1.5.21"
     id("org.jetbrains.kotlin.kapt") version "1.5.21"
     id("com.github.johnrengelman.shadow") version "7.0.0"
     id("io.micronaut.application") version "2.0.3"
     id("org.jetbrains.kotlin.plugin.allopen") version "1.5.21"
+    id("com.google.protobuf") version "0.8.15"
 }
 
 version = "0.1"
-group = "com.zup"
+group = "com.zup.edu"
 
 val kotlinVersion=project.properties.get("kotlinVersion")
 repositories {
@@ -15,18 +17,16 @@ repositories {
 }
 
 micronaut {
-    runtime("netty")
     testRuntime("junit5")
     processing {
         incremental(true)
-        annotations("com.zup.*")
+        annotations("com.zup.edu.*")
     }
 }
 
 dependencies {
-    kapt("io.micronaut:micronaut-http-validation")
-    implementation("io.micronaut:micronaut-http-client")
     implementation("io.micronaut:micronaut-runtime")
+    implementation("io.micronaut.grpc:micronaut-grpc-runtime")
     implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
     implementation("javax.annotation:javax.annotation-api")
     implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
@@ -36,11 +36,15 @@ dependencies {
 
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
 
+    implementation("io.micronaut:micronaut-http-client")
+
+    implementation("io.micronaut.grpc:micronaut-grpc-client-runtime")
+
 }
 
 
 application {
-    mainClass.set("com.zup.ApplicationKt")
+    mainClass.set("com.zup.edu.ApplicationKt")
 }
 java {
     sourceCompatibility = JavaVersion.toVersion("11")
@@ -59,4 +63,31 @@ tasks {
     }
 
 
+}
+sourceSets {
+    main {
+        java {
+            srcDirs("build/generated/source/proto/main/grpc")
+            srcDirs("build/generated/source/proto/main/java")
+        }
+    }
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.17.2"
+    }
+    plugins {
+        id("grpc") {
+            artifact = "io.grpc:protoc-gen-grpc-java:1.36.2"
+        }
+    }
+    generateProtoTasks {
+        ofSourceSet("main").forEach {
+            it.plugins {
+                // Apply the "grpc" plugin whose spec is defined above, without options.
+                id("grpc")
+            }
+        }
+    }
 }
