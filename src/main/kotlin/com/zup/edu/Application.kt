@@ -6,5 +6,6 @@ fun main(args: Array<String>) {
 	    .args(*args)
 		.packages("com.zup.edu")
 		.start()
+
 }
 

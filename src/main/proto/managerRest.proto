@@ -1,0 +1,130 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.zup";
+
+// option java_outer_classname = "Desafiopix"; -- Vai ser o nome que vai ser dado ao arquivo que vai guardar
+        // todos os dados, casos seja colocado false no java_multiple_files
+// option objc_class_prefix = "HLW"; -- Caso queira compilar para linguagem objective C
+
+package com.zup;
+
+import "google/protobuf/timestamp.proto";
+
+service KeymanagerCadastraService {
+  rpc cadastraChavePix(CadastraChavePixRequest) returns (CadastraChavePixResponse) {}
+}
+
+service KeymanagerDeletaService {
+  rpc deletaChavePix(DeletaChavePixRequest) returns (DeletaChavePixResponse) {}
+}
+
+service KeymanagerListaService {
+  rpc listaChavePix(ListaChavePixRequest) returns (ListaChavePixResponse);
+}
+
+service KeymanagerListaTodasService {
+  rpc listaTodasChavePix(ListaTodasChavesPixRequest) returns (ListaTodasChavesPixResponse);
+}
+
+enum TipoDeChave {
+  CHAVE_DESCONHECIDA = 0;
+  CPF = 1;
+  CELULAR = 2;
+  EMAIL = 3;
+  CHAVE_ALEATORIA = 4;
+}
+
+enum TipoDeConta {
+  CONTA_DESCONHECIDO = 0;
+  CONTA_CORRENTE = 1;
+  CONTA_POUPANCA = 2;
+}
+
+/**
+* Registra chave
+*/
+message CadastraChavePixRequest {
+  string clienteId = 1;
+  TipoDeChave tipoDeChave = 2;
+  string valorDaChave = 3;
+  TipoDeConta tipoDeConta = 4;
+}
+
+message CadastraChavePixResponse {
+  string clienteId = 1;
+  string pixId = 2;
+}
+
+/*
+* Deleta chave
+*/
+message DeletaChavePixRequest {
+  string clienteId = 1;
+  string pixId = 2;
+}
+
+message DeletaChavePixResponse {
+  string message = 1;
+}
+
+
+/*
+* Lista chave pix
+*/
+message ListaChavePixRequest {
+
+  message FiltroPorPixId {
+    string clienteId = 1;
+    string pixId = 2;
+  }
+
+  oneof filtro {
+    FiltroPorPixId pixId = 1;
+    string valorDaChave = 2;
+  }
+}
+message ListaChavePixResponse {
+  message ChavePix {
+    message ContaInfo {
+      TipoDeConta tipoDeConta = 1;
+      string instituicao = 2;
+      string nomeDoTitular = 3;
+      string cpfDoTitular = 4;
+      string agencia = 5;
+      string numeroDaConta = 6;
+    }
+
+    TipoDeChave tipoDeChave = 1;
+    string valorDaChave = 2;
+    ContaInfo conta = 3;
+    google.protobuf.Timestamp criadoEm = 4;
+  }
+
+  string clienteId = 1;
+  string pixId = 2;
+  ChavePix chave = 3;
+}
+
+/*
+* Lista todas chave pix
+*/
+
+message ListaTodasChavesPixRequest {
+  string clienteId = 1;
+}
+
+message ListaTodasChavesPixResponse {
+
+  message ChavePix {
+    string pixId = 1;
+    TipoDeChave tipoDeChave = 2;
+    string valorDaChave = 3;
+    TipoDeConta tipoDeConta = 4;
+    google.protobuf.Timestamp criadaEm = 5;
+  }
+
+  string clienteId = 1;
+  repeated ChavePix chaves = 2;
+
+}

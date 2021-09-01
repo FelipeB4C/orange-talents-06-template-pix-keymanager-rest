@@ -17,6 +17,7 @@ repositories {
 }
 
 micronaut {
+    runtime ("netty")
     testRuntime("junit5")
     processing {
         incremental(true)
@@ -26,7 +27,7 @@ micronaut {
 
 dependencies {
     implementation("io.micronaut:micronaut-runtime")
-    implementation("io.micronaut.grpc:micronaut-grpc-runtime")
+    // implementation("io.micronaut.grpc:micronaut-grpc-runtime")
     implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
     implementation("javax.annotation:javax.annotation-api")
     implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
@@ -39,6 +40,7 @@ dependencies {
     implementation("io.micronaut:micronaut-http-client")
 
     implementation("io.micronaut.grpc:micronaut-grpc-client-runtime")
+    implementation("org.hibernate:hibernate-validator:6.1.6.Final")
 
 }
 
