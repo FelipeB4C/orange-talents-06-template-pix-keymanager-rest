@@ -1,13 +1,14 @@
 package com.zup.edu.anotacoes
 
-import com.zup.edu.controllers.ChavePixRequest
+import com.zup.edu.dto.ChavePixRequest
 import jakarta.inject.Singleton
 import javax.validation.Constraint
 import javax.validation.ConstraintValidator
 import javax.validation.ConstraintValidatorContext
 import javax.validation.Payload
-import kotlin.annotation.AnnotationRetention.*
-import kotlin.annotation.AnnotationTarget.*
+import kotlin.annotation.AnnotationRetention.RUNTIME
+import kotlin.annotation.AnnotationTarget.CLASS
+import kotlin.annotation.AnnotationTarget.TYPE
 import kotlin.reflect.KClass
 
 @MustBeDocumented

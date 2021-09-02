@@ -40,7 +40,18 @@ dependencies {
     implementation("io.micronaut:micronaut-http-client")
 
     implementation("io.micronaut.grpc:micronaut-grpc-client-runtime")
+
     implementation("org.hibernate:hibernate-validator:6.1.6.Final")
+
+
+    // Testes
+    testAnnotationProcessor("io.micronaut:micronaut-inject-java")
+    testImplementation("org.junit.jupiter:junit-jupiter-api")
+    testImplementation("org.mockito:mockito-core")
+    testImplementation("io.micronaut.test:micronaut-test-junit5")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+    testImplementation("com.h2database:h2")
+    testImplementation("org.mockito:mockito-inline:3.+")
 
 }
 
